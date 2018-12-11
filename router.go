@@ -2,18 +2,18 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-package goweb 
+package goweb
 
 type Route struct {
     Method string
     Path   string
-    Name   string
 }
 
 type Router struct {
-    serve  *Serve
-    routes map[string]*Route
-    trees  methodTrees
+    serve   *Serve
+    routes  map[string]*Route
+    trees   methodTrees
+    methods map[string]HandlerFunc
 }
 
 func NewRouter(ser *Serve) (r *Router) {
@@ -25,7 +25,15 @@ func NewRouter(ser *Serve) (r *Router) {
     return
 }
 
-func (r *Router) handle(method string, path string, handler HandlerFunc) {
+func (r *Router) methodHandler(method string, handler HandlerFunc) {
+    r.methods[method] = handler
+    r.routes[method] = &Route{
+        Method: method,
+        Path: "*",
+    }
+}
+
+func (r *Router) handler(method string, path string, handler HandlerFunc) {
     if path == "" {
         panic("router path cannot be empty")
     }
@@ -48,4 +56,3 @@ func (r *Router) handle(method string, path string, handler HandlerFunc) {
         Path:   path,
     }
 }
-

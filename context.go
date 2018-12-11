@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-package goweb 
+package goweb
 
 import (
     "time"
@@ -11,6 +11,7 @@ import (
     "net/url"
     "net/http"
     "io/ioutil"
+    "strconv"
 )
 
 const multipartMemory = 32 << 20 // 32 MB
@@ -190,6 +191,16 @@ func (c *Context) Query(key string) string {
 	return value
 }
 
+func (c *Context) QueryInt(key string) int {
+    value, _ := strconv.Atoi(c.Query(key))
+    return value
+}
+
+func (c *Context) QueryFloat64(key string) float64 {
+    value, _ := strconv.ParseFloat(c.Query(key), 64)
+    return value
+}
+
 func (c *Context) GetQuery(key string) (string, bool) {
 	if values, ok := c.GetQueryArray(key); ok {
 		return values[0], ok
@@ -207,6 +218,16 @@ func (c *Context) GetQueryArray(key string) ([]string, bool) {
 func (c *Context) PostForm(key string) string {
 	value, _ := c.GetPostForm(key)
 	return value
+}
+
+func (c *Context) PostFormInt(key string) int {
+    value, _ := strconv.Atoi(c.PostForm(key))
+    return value
+}
+
+func (c *Context) PostFormFloat64(key string) float64 {
+    value, _ := strconv.ParseFloat(c.PostForm(key), 64)
+    return value
 }
 
 func (c *Context) GetPostForm(key string) (string, bool) {
