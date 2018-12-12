@@ -31,10 +31,6 @@ func (c *Context) Reset(w http.ResponseWriter, r *http.Request) {
     c.Keys = nil
 }
 
-func (c *Context) Logger() Logger {
-    return c.Serve.Logger
-}
-
 //***  Request Data  ***//
 
 func (c *Context) GetHeader(key string) string {

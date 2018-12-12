@@ -16,7 +16,6 @@ type (
         ReadTimeout           time.Duration
         WriteTimeout          time.Duration
         IdleTimeout           time.Duration
-        Logger                Logger
         ServerErrorHandler    func(error, *Context, int)
         NotFoundHandler       HandlerFunc
         MethodNotAllowHandler HandlerFunc
