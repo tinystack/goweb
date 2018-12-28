@@ -33,6 +33,14 @@ func (c *Context) Reset(w http.ResponseWriter, r *http.Request) {
 
 //***  Request Data  ***//
 
+func (c *Context) GetRequestPath() string {
+    return c.Request.URL.Path
+}
+
+func (c *Context) GetRequestMethod() string {
+    return c.Request.Method
+}
+
 func (c *Context) GetHeader(key string) string {
 	return c.Request.Header.Get(key)
 }
@@ -156,6 +164,13 @@ func (c *Context) GetDuration(key string) (d time.Duration) {
 }
 
 func (c *Context) GetStringSlice(key string) (ss []string) {
+	if val, ok := c.Get(key); ok && val != nil {
+		ss, _ = val.([]string)
+	}
+	return
+}
+
+func (c *Context) GetIntSlice(key string) (ss []string) {
 	if val, ok := c.Get(key); ok && val != nil {
 		ss, _ = val.([]string)
 	}

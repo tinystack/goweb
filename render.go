@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-package goweb 
+package goweb
 
 import (
     "encoding/json"
@@ -19,4 +19,3 @@ func renderJson(w http.ResponseWriter, obj interface{}) error {
     w.Write(jsonBytes)
     return nil
 }
-
