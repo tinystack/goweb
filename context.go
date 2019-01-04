@@ -31,6 +31,14 @@ func (c *Context) Reset(w http.ResponseWriter, r *http.Request) {
     c.Keys = nil
 }
 
+func (c *Context) CloseCallback(cbFn func()) {
+    notify := c.ResponseWriter.(http.CloseNotifier).CloseNotify()
+    go func() {
+        <-notify
+        cbFn()
+    }()
+}
+
 //***  Request Data  ***//
 
 func (c *Context) GetRequestPath() string {
@@ -170,9 +178,9 @@ func (c *Context) GetStringSlice(key string) (ss []string) {
 	return
 }
 
-func (c *Context) GetIntSlice(key string) (ss []string) {
+func (c *Context) GetIntSlice(key string) (ss []int) {
 	if val, ok := c.Get(key); ok && val != nil {
-		ss, _ = val.([]string)
+		ss, _ = val.([]int)
 	}
 	return
 }
