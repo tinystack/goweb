@@ -31,10 +31,13 @@ func (c *Context) Reset(w http.ResponseWriter, r *http.Request) {
     c.Keys = nil
 }
 
-func (c *Context) CloseCallback(cbFn func()) {
+func (c *Context) CloseCallback(cbFn func(), timeout int) {
     notify := c.ResponseWriter.(http.CloseNotifier).CloseNotify()
     go func() {
-        <-notify
+        select {
+        case <-notify:
+        case <-time.After(time.Second * time.Duration(timeout)):
+        }
         cbFn()
     }()
 }
