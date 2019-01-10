@@ -40,7 +40,7 @@ func (r *Router) handler(method string, path string, handler HandlerFunc) {
     if path[0] != '/' {
         path = "/" + path
     }
-    if path[len(path)-1] == '/' {
+    if len(path) > 1 && path[len(path)-1] == '/' {
         path = path[:len(path)-1]
     }
 
